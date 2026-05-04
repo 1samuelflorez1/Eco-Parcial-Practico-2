@@ -18,12 +18,14 @@ export const Game = () => {
 
 
     const moverJugador = (dx: number, dy: number) => {
+
     }
 
     const initSensor = () => {
     }
 
     const activarSensor = () => {
+        window.addEventListener("devicemotion")
     }
 
     if (winner) {

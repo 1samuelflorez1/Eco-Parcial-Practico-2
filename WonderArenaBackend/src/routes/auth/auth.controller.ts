@@ -7,5 +7,11 @@ const signup = async (req: Request, res: Response) => {
     res.json(response)
 }
 
+const login = async (req: Request, res: Response) => {
+    const { email, password } = req.body
+    const response = await AuthRepository.loginUser({ email, password })
+    res.json(response)
+}
 
-export default { signup }
+
+export default { signup, login }

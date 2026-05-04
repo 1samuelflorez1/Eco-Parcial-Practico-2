@@ -1,20 +1,35 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { BASE_URL } from "../../consts/api"
+import { useAuth } from "../../contexts/AuthProvider"
 
 export const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
+    const auth = useAuth()
 
     const handleLogin = async () => {
-        await fetch(`${import.meta.env.SUPABASE_URL}/auth/signup`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
-                })
-                navigate("/login")
+         try {
+      const response = await fetch(
+        import.meta.env.VITE_API_URL + "/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        },
+      );
+
+      if (!response.ok) return;
+      const data = await response.json();
+      if (!data.accessToken) return; 
+      auth?.login({ accessToken: data.accessToken });
+      
+      localStorage.setItem("accessToken", data.accessToken);
+      navigate("/game");
+    } catch (error) {
+      console.error("Error during login:", error);
     }
+}
 
     return (
         <section>

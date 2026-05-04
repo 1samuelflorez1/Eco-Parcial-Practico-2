@@ -8,12 +8,13 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>(null)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [accessToken] = useState<string | null>(
-        localStorage.getItem("accessToken")
-    )
+    const [accessToken, setAccessToken] = useState<string | null>(
+        
+    localStorage.getItem("accessToken"))
 
     const login = (tokens: { accessToken: string }) => {
-        localStorage.setItem("accessToken", tokens.accessToken)
+    localStorage.setItem("accessToken", tokens.accessToken)
+    setAccessToken(tokens.accessToken)
     }
 
     return (
